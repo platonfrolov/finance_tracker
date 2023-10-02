@@ -30,10 +30,18 @@ class PDFProcessor:
             return True
         except ValueError:
             return False
+    
+    def to_float(s):
+        try:
+            f = float(s)
+            return f
+        except ValueError:
+            print("error while parsing amount")
+
 
     @staticmethod
     def check_is_amount(s):
-        if (s.startswith("+") and PDFProcessor.check_is_float(s.split("+")[1])) or (s.startswith("-") and check_is_float(s.split("-")[1])):
+        if (s.startswith("+") and PDFProcessor.check_is_float(s.split("+")[1])) or (s.startswith("-") and PDFProcessor.check_is_float(s.split("-")[1])):
             return True
         return False
 
@@ -89,6 +97,13 @@ class PDFProcessor:
                     transaction[1], transaction[i] = transaction[i], transaction[1]
                 else:
                     transaction[3], transaction[i] = transaction[i], transaction[3]
+                    transaction[3] = transaction[3].replace(" ", "")
+            transaction[2] = transaction[2].replace(".", "")
+            transaction[2] = transaction[2].replace(",", ".")
+            transaction[2] = transaction[2].replace(" ", "")
+            
+            print(transaction[2])
+            transaction[2] = PDFProcessor.to_float(transaction[2])
         return all_transactions
     
     def to_dataframe(self, transactions):

@@ -1,5 +1,6 @@
 import React from 'react'
 import PDFUpload from './components/PDFUpload';
+import DragAndDrop from './components/dragAndDrop/DragAndDrop';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ export default class App extends React.Component {
     return (
       <div>
         <PDFUpload></PDFUpload>
+        {/* <DragAndDrop></DragAndDrop> */}
       </div>
     );
   }

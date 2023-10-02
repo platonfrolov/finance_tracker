@@ -2,7 +2,7 @@
 
 class CategoryManager:
     def __init__(self):
-        self.filename = "categories.txt"
+        self.filename = "categories/categories.txt"
 
     def add_category(self, category_name):
         file = open(self.filename, 'r')
@@ -33,5 +33,6 @@ class CategoryManager:
     def get_categories(self):
         file = open(self.filename, 'r')
         lines = file.readlines()
+        lines = [line.strip() for line in lines]
         file.close()
         return lines
