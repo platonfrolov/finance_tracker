@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import './styles.css'
 import Card from './Card'
+import Category from './Category'
 import Loader from '../loader/Loader'
+
 
 
 const DragAndDrop = (props) => {
     var initialState = []
+    // receive saved name -> catefory mappings from 
     props.transactions.forEach((transaction, idx) => {
         var el = 
         {
@@ -19,7 +22,7 @@ const DragAndDrop = (props) => {
         initialState.push(el)
     })
     const [cards, setCards] = useState(initialState)
-    const [categories, setCategories] = useState(props.categories)
+    const [categories, setCategories] = useState(props.categoryData["categories"])
     const [state, setState] = useState({loading: false})
     const proceed = async () => {
         setState({loading: true})
@@ -39,13 +42,31 @@ const DragAndDrop = (props) => {
         })
     }
     const addCategory = () => {
-        var categoryName = document.querySelector("#newCategoryName").value
-        document.querySelector("#newCategoryName").value = ""
-        var updatedCategories = [...categories]
-        updatedCategories.push(categoryName)
-        console.log(updatedCategories)
-        setCategories(updatedCategories)
-        console.log(categories)
+        if (categories.length < 28) {
+            var categoryName = document.querySelector("#newCategoryName").value
+            if (categories.includes(categoryName) || categoryName == "") {
+                console.log("TODO: Please give the category a different name")
+            } else {
+                document.querySelector("#newCategoryName").value = ""
+                var updatedCategories = [...categories]
+                updatedCategories.push(categoryName)
+                setCategories(updatedCategories)
+                var to_send = {
+                    "payload": categoryName,
+                }
+                fetch("http://127.0.0.1:8000/create_category", {
+                    headers: {
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(to_send),
+                }).then(async response => {
+                    var data = await response.json()
+                    console.log(data)
+                })
+            }
+        }
+        
     }
     useEffect(() => {
         document.addEventListener('dragstart', dragStart)
@@ -111,42 +132,37 @@ const DragAndDrop = (props) => {
             <div>
                 <main className="board gap-4 grid grid-cols-5 m-[5vh]">
                     <div className='l col-span-1'>
-                        <div
-                            className="column column-todo h-[85vh] bg-slate-200 rounded-lg overflow-scroll"
-                            data-column="unassigned"
-                            onDragEnter={dragEnter}
-                            onDragLeave={dragLeave}
-                            onDragOver={allowDrop}
-                            onDrop={drop}
-                        >
-                            <h2 className='sticky top-0 h-8 bg-slate-200 w-full text-center flex items-center justify-center'>Niet toegewezen</h2>
-                            {cards.filter(card => card.state === "unassigned").map(card => (
-                                <article key={card.id} className="card" draggable="true" onDragStart={drag} data-id={card.id}>
-                                    <Card key={card.id} name={card.name} date={card.date} amount={card.amount} type={card.type} className="card" draggable="true" onDragStart={drag} data-id={card.id}/>
-                                </article>
-                            ))}
-                        </div>
+                        <Category 
+                            categories={categories}
+                            setCategories={setCategories}
+                            name={"unassigned"} 
+                            cards={cards}
+                            setCards={setCards}
+                            drop={drop}
+                            drag={drag}
+                            allowDrop={allowDrop}
+                            dragLeave={dragLeave}
+                            dragEnter={dragEnter}
+                            isMainCol={true}
+                        ></Category>
                     </div>
                     <div className='r col-span-4 gap-4 grid grid-cols-4'>
                     {
                         categories.map(element => {
                             return (
-                                <div
-                                    className="column column-todo bg-slate-200 h-[41.5vh] rounded-lg overflow-scroll"
-                                    data-column={element}
-                                    onDragEnter={dragEnter}
-                                    onDragLeave={dragLeave}
-                                    onDragOver={allowDrop}
-                                    onDrop={drop}
-                                >
-                                    <h2 className='sticky top-0 h-8 bg-slate-200 w-full text-center flex items-center justify-center'>{element}</h2>
-                                    {cards.filter(card => card.state === element).map(card => (
-                                        <article key={card.id} className="card" draggable="true" onDragStart={drag} data-id={card.id}>
-                                            <Card key={card.id} name={card.name} date={card.date} amount={card.amount} type={card.type} className="card" draggable="true" onDragStart={drag} data-id={card.id}/>
-                                        </article>
-                                        
-                                    ))}
-                                </div>
+                                <Category 
+                                    categories={categories}
+                                    setCategories={setCategories}
+                                    name={element} 
+                                    cards={cards}
+                                    setCards={setCards}
+                                    drop={drop}
+                                    drag={drag}
+                                    allowDrop={allowDrop}
+                                    dragLeave={dragLeave}
+                                    dragEnter={dragEnter}
+                                    isMainCol={false}
+                                ></Category>
                             )
                         })
                     }

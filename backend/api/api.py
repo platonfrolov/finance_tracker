@@ -43,13 +43,23 @@ async def create_overview(request: Request):
     excel_generator.execute()
     return 200
 
+@app.post("/edit_category")
+async def edit_category(request: Request):
+    data = await request.json()
+    category_manager.edit_category(data["payload"]["newName"], data["payload"]["oldName"])
+    return 200
+
 @app.post("/create_category")
 async def create_category(request: Request):
-    pass
+    data = await request.json()
+    category_manager.add_category(data["payload"])
+    return 200
 
 @app.delete("/delete_category")
 async def delete_category(request: Request):
-    pass
+    data = await request.json()
+    category_manager.delete_category(data["payload"])
+    return 200
 
 @app.get("/get_categories")
 async def get_categories(request: Request):

@@ -56,19 +56,19 @@ export default class PDFUpload extends React.Component {
                 method: 'GET',
             }).then(async response => {
                 var data = await response.json()
-                this.categories = data
-                console.log(this.categories)
+                this.categoryData = data
+                console.log(this.categoryData)
                 this.setState({done_loading_categories: true})
             })
         }
         this.transactions = []
-        this.categories = []
+        this.categoryData = []
     }
 
   render(){
     if (this.state.done_loading_categories && this.state.done_loading_transactions) {
         return (
-            <DragAndDrop transactions={this.transactions} categories={this.categories}></DragAndDrop>
+            <DragAndDrop transactions={this.transactions} categoryData={this.categoryData}></DragAndDrop>
         );
     } else if (this.state.loading) {
         return (

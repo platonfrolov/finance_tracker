@@ -2,6 +2,7 @@ import React from 'react'
 import PDFUpload from './components/PDFUpload';
 import DragAndDrop from './components/dragAndDrop/DragAndDrop';
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props)
@@ -12,9 +13,8 @@ export default class App extends React.Component {
 
   render(){
     return (
-      <div>
+      <div className='select-none'>
         <PDFUpload></PDFUpload>
-        {/* <DragAndDrop></DragAndDrop> */}
       </div>
     );
   }

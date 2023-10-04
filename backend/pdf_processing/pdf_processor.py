@@ -46,12 +46,18 @@ class PDFProcessor:
         return False
 
     @staticmethod
+    def check_is_negative_amount(s):
+        if s.startswith("-"):
+            return True
+        return False
+
+    @staticmethod
     def check_is_relevant(row_data):
-        has_amount = False 
+        has_negative_amount = False
         for element in row_data:
-            if PDFProcessor.check_is_amount(element):
-                has_amount = True  
-        return has_amount
+            if PDFProcessor.check_is_amount(element) and PDFProcessor.check_is_negative_amount(element):
+                has_negative_amount = True  
+        return has_negative_amount
     
     def parse_pdf(self):
         tree = self.pdf.tree

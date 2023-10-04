@@ -10,7 +10,7 @@ export default class Loader extends React.Component {
     render(){
         return (
             <div className='grid h-screen place-items-center'>
-                <div className="lds-circle"><div></div></div>
+                <div className="lds-circle color-white"><div>€</div></div>
             </div>
             
         );
