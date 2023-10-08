@@ -1,4 +1,5 @@
-Eten
-Cadeaus
-Huur
-Overig
+Subscriptions
+Food
+Travel
+Health
+Clothes

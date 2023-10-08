@@ -3,6 +3,7 @@ import Card from './Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import EditCategoryName from '../modals/EditCategoryName';
+import TransactionOverview from '../modals/TransactionOverview'
 
 
 
@@ -10,10 +11,11 @@ export default class Category extends React.Component {
   constructor(props) {
     super(props)
     this.state= {
-        showEditNameModal: false
+        showEditNameModal: false,
+        showTransactionOverviewModal: false
     }
     this.viewCategory = () => {
-
+        this.setState({showTransactionOverviewModal: true})
     }
     this.editCategory = () => {
         this.setState({showEditNameModal: true})
@@ -44,6 +46,9 @@ export default class Category extends React.Component {
                 console.log(data)
             })
             }
+    }
+    this.handleTransactionChange = (newCards) => {
+        this.props.setCards(newCards)
     }
     this.deleteCategory = () => {
         // move all transactions in this category to unassigned
@@ -124,6 +129,7 @@ export default class Category extends React.Component {
             }
         </div>
         <EditCategoryName show={this.state.showEditNameModal} close={() => this.setState({showEditNameModal: false})} change ={this.handleCategoryChange} name={this.props.name}></EditCategoryName>
+        <TransactionOverview transactions={this.props.cards} show={this.state.showTransactionOverviewModal} close={() => this.setState({showTransactionOverviewModal: false})} change={this.handleTransactionChange} name={this.props.name}></TransactionOverview>
       </div>
 
       

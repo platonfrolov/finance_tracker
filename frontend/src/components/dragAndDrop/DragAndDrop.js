@@ -26,8 +26,13 @@ const DragAndDrop = (props) => {
     const [state, setState] = useState({loading: false})
     const proceed = async () => {
         setState({loading: true})
+        var cardsToSend = cards.map(card => {
+            if (card.state != "") {
+                return card
+            }
+        })
         var to_send = {
-            "payload": cards,
+            "payload": cardsToSend,
         }
         fetch("http://127.0.0.1:8000/create_overview", {
             headers: {

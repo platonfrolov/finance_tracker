@@ -1,8 +1,12 @@
 {
     "categories": [
+        "Presents",
         "Food",
-        "Clothing",
-        "Platon"
+        "Travel",
+        "Other",
+        "Sports",
+        "Leisure",
+        "Clothing"
     ],
     "saved_mappings": {
         "Mw K de Greef": "Food",
