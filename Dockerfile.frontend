@@ -1,0 +1,13 @@
+FROM node:18-alpine
+WORKDIR /finance_tracker/frontend/
+
+COPY frontend/public/ /finance_tracker/frontend/public
+COPY frontend/src/ /finance_tracker/frontend/src
+COPY frontend/package*.json  /finance_tracker/frontend/
+COPY frontend/*.config.js /finance_tracker/frontend/
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

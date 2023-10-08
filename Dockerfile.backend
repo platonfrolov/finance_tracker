@@ -1,0 +1,9 @@
+FROM python:3.9
+WORKDIR /finance_tracker/backend/
+
+COPY backend/ /finance_tracker/backend/
+RUN pip install -r /finance_tracker/backend/requirements.txt
+
+EXPOSE 8000
+
+CMD uvicorn api.api:app --port 8000 --host 0.0.0.0 --reload
