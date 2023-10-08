@@ -6,13 +6,12 @@ import EditCategoryName from '../modals/EditCategoryName';
 import TransactionOverview from '../modals/TransactionOverview'
 
 
-
 export default class Category extends React.Component {
   constructor(props) {
     super(props)
     this.state= {
         showEditNameModal: false,
-        showTransactionOverviewModal: false
+        showTransactionOverviewModal: false,
     }
     this.viewCategory = () => {
         this.setState({showTransactionOverviewModal: true})
@@ -101,13 +100,13 @@ export default class Category extends React.Component {
             onDrop={this.props.drop}
         >
             
-            <h2 className= {this.props.isMainCol ? 'sticky top-0 h-8 bg-slate-200 w-full text-center flex items-center justify-center' : 'sticky top-0 h-8 bg-slate-300 w-full text-center flex items-center justify-center'}>{this.props.name}</h2>
+            <h2 className= {this.props.isMainCol ? 'sticky top-0 h-8 bg-slate-200 w-full text-center flex items-center justify-center !z-100' : 'sticky top-0 h-8 bg-slate-300 w-full text-center flex items-center justify-center !z-100'}>{this.props.name}</h2>
             
             {
             this.props.isMainCol ?
             this.props.cards.filter(card => card.state === this.props.name).map(card => (
                 <article key={card.id} className="card" draggable="true" onDragStart={this.props.drag} data-id={card.id}>
-                    <Card key={card.id} name={card.name} date={card.date} amount={card.amount} type={card.type} className="card" draggable="true" onDragStart={this.props.drag} data-id={card.id}/>
+                    <Card change={this.handleTransactionChange} cards={this.props.cards} id={card.id} name={card.name} date={card.date} amount={card.amount} type={card.type} className="card" draggable="true" onDragStart={this.props.drag} data-id={card.id}/>
                 </article>
             ))
             :
